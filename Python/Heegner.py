@@ -1,9 +1,6 @@
 """
 Codes an algorithm for constructing a rational point on an elliptic
 curve defined over the rationals.
-	
-Author: Erik Holum
-E-mail: EHolum@gmail.com
 """
 import Numbers
 from sage.schemes.elliptic_curves.heegner import *
