@@ -1,0 +1,120 @@
+%HEEGNER POINTS
+\chapter{Heegner Points} \label{heegner}
+The evolution of the theory of Heegner points is described by Bryan Birch in \cite{Birch}.  Kurt Heegner in \cite{Heegner}, who had been working with imaginary quadratic fields and the congruence number problem, developed somewhat mystical techniques for constructing rational points on very specific elliptic curves using the fact that these curves were modular. Birch, Gross, and Zagier were interested in a generalization of this technique to apply to any elliptic curve defined over certain class fields. While this was before the proof of the modularity theorem, they realized that one could find points on $X_0(N)$, and then use the modular parameterization to map these points onto elliptic curves. For more information, we would direct the reader to \cite{Birch1, MR0384805, MR1839918}.
+
+Given an elliptic curve $E$, defined over the rationals, of analytic rank 1 and conductor $N$, we will explicitly define a Heegner point on $X_0(N) = \Ha^*/\Gamma_0(N)$ that can be used construct a non-trivial point of infinite order on $E(\Q)$, so the algebraic rank of $E$ is at least 1. We first define the points from an abstract perspective, then give a more concrete approach which lends itself to specific calculation of these types of points. 
+\section{Complex Multiplication}
+Let $K$ be an imaginary quadratic extension of $\Q$ with discriminant $D < 0$. So we may write $K = \Q(\omega)$ where
+$$
+\omega = \left\{
+	\begin{array}{ll}
+		\frac{1+\sqrt{D}}{2} & \mbox{if } D \equiv 1 \text{ (mod 4)}\\
+		\frac{\sqrt{D}}{2} & \mbox{ otherwise}.
+	\end{array}
+\right.
+$$
+Let $\Or_K = \Z \oplus \Z{\omega}$ be the ring of integers of $K$, then an order of $K$, $\Or \subseteq \Or_K$, is a subring of $K$ of the form
+$$\Or = \Z \oplus \Z{c\omega}$$
+where $c$ is any integer greater than zero. Note that every order is uniquely determined by $c$, which we will call the conductor of $\Or$.
+
+Let $E$ be an elliptic curve with $E(\C) \cong \C/\Lambda$. Recall the endomorphism ring attached to $E$ is defined by
+$$\text{End}(E) = \{\alpha \in \C : \alpha\Lambda \subseteq \Lambda\}.$$
+From \cite[Page 102]{Silverman}, we have that End($E)$ is either isomorphic to $\Z$ or to some order in an imaginary quadratic extension $K$ of $\Q$.
+\begin{definition}
+If an elliptic curve $E$ has End$(E) \cong \Or \supset \Z$ (properly contains $\Z$) for some order in an imaginary quadratic field, then we say $E$ has complex multiplication. More specifically, given an order $\Or$, we say that $E$ has complex multiplication by $\Or$ if End$(E) \cong \Or.$
+\end{definition}
+Let's examine complex multiplication using the map $\Phi:\C/\Lambda \to E(\C)$. To start, let $h:E(\C) \to E(\C)$ be an isogeny, and consider the function $(\Phi^{-1} \circ h \circ \Phi)$. It follows from \cite[Lemma 6.18]{Knapp} that $(\Phi^{-1} \circ h \circ \Phi)(z) = az$ for some $a \in \C$. Note that the only non-trivial, well-defined isogenies have $a \in \C, a \not\in \R$. Let $w_1, w_2$ be the generators for the lattice $\Lambda$. Then we have an easy method for determining whether an elliptic curve has complex multiplication.
+
+\begin{prop} An elliptic curve $E$ has complex multiplication if and only if $w_2/w_1$ lies in an imaginary quadratic extension $\Q$. In which case $End(E)$ will be isomorphic to some order, $\Or \subseteq \Q(w_2/w_1)$.
+\end{prop}
+\begin{proof}
+See \cite[Page 176]{Silverman}.
+\end{proof}
+
+
+
+\section{Definition of Heegner Points}
+We recall that points on the curve $X_0(N) = \Ha^*/\Gamma_0(N)$ correspond to triples $(E,E',\phi)$ of elliptic curves with isogenies between them. Fix $N > 1$, and let $P = (E,E',\phi) \in X_0(N)$. Then we can choose $\tau \in \Ha$ such that $E \cong \C/\Lambda_\tau$ and 
+$$E' \cong \frac{1}{N}\Z + \Z\tau.$$
+Then supposing $E$ has complex multiplication by an order $\Or \subset \Q(\sqrt{D})$, from the proposition above we must have $\Q(\tau) = \Q(\sqrt{D})$. We define Heegner points using complex multiplication.
+\begin{definition}\label{heegner point}
+Fix an imaginary quadratic number field $K$. Let $(E,E',\phi) \in X_0(N)$ such that
+$$End(E) \cong End(E') \cong \Or$$
+for some order $\Or \subset K$ with 
+$\Or = \Z + \Z{c\omega}$ of discriminant $D < 0$. Then we call $(E,E',\phi)$ a Heegner point of level $N$, discriminant $D$, and conductor $c$ on $X_0(N)$. 
+\\
+Let $\mathcal{HP}_N(D,c)$ denote the set of Heegner points of level $N$, discriminant $D$, and conductor $c$.
+\end{definition}
+We will mostly leave out the conductor of a Heegner point, as it is not crucial to our discussion. The principles for larger conductors are essentially the same. For the remainder of the paper we set $c=1$ and write $\mathcal{HP}_N(D)$ for the set of Heegner points with conductor 1.
+We will show in the next section that $\mathcal{HP}_N(D)$ is a finite set with easily calculable size. We begin by asking exactly which orders $\Or$ of imaginary quadratic rings $K$ could possibly satisfy the above condition for an elliptic curve $E$; moreover, we would like to understand the images of these points on $E(\C)$. Fix an integer $N$, choose $K = \Q(\sqrt{D})$ a binary quadratic field with fundamental discriminant $D < 0$, and let $\Or_K$ be the ring of integers of $K$. We first note that a Heegner point on $X_0(N)$ is of the form
+$$\phi:\C/I \to \C/I(n^{-1})$$
+where $[I] \in Cl(D)$ and $n$ is a primitive ideal of $\Or_K$ of norm $N$ such that $\Or_K/n\Or_K \cong \Z/N\Z$, and $\phi$ is the natural isomorphism between them \cite{Birch}. Thus, a Heegner point can be determined by a triple
+$$(\Or_K,n,[I]).$$
+We note that by ranging over different ideal classes in $Cl(D)$ we obtain precisely $h(D)$ Heegner points of level N and discriminant $D$ related to the primitive ideal $n$ (where $h(D)$ is the class number of $D$). For such an ideal $n$ to exist, we must have all primes $p$ dividing $N$ splitting in $K/\Q$, otherwise $\mathcal{HP}_N(D)$ will be empty. We refer to this condition as the $Heegner$ $hypothesis$ or the $Heegner$ $condition$.
+
+In the coming sections, we provide an alternative method by describing Heegner points in a more computationally friendly manner.
+
+
+\section{Computing Heegner Points}
+We begin by recalling that ideal classes in $Cl(D)$ can be represented by primitive binary quadratic forms. Gauss showed that for every value of $D$, there are only finitely many binary quadratic forms of discriminant $D$, and the number of these forms is exactly the class number $h(D)$. Given a negative discriminant $D$, he additionally described an algorithm to find binary quadratic forms representing each ideal class in $Cl(D)$ (see \cite[Chapter 5]{Cohen} for example). With this in mind, we let $\tau \in \Ha$ be a quadratic surd with associated integral primitive quadratic form $f_\tau = (A,B,C)$, so $A^2\tau + B\tau + C = 0$, $A > 0$, and $\gcd(A,B,C) = 1$. Define the discriminant of $\tau$ by $D = \Delta(\tau) = B^2 - 4AC < 0$. Then we can write $\tau$ in terms of $A,B,C$ as
+$$\tau = \frac{-B + \sqrt{D}}{2A}.$$
+\begin{prop}
+If $\tau$ is a quadratic surd in in $\Ha$ with discriminant $D < 0$, then $j(\tau)$ is an algebraic number defined over $K(D)$.
+\end{prop}
+\begin{proof}
+See \cite[Page 30]{Darmon2}.
+\end{proof}
+Then if $\tau$ has discriminant $D$, $N\tau$ will typically have discriminant $N^2D$, and thus $j(N\tau) \in K(N^2D)$. We continue with an alternative presentation of a Heegner point to that given previously. In some texts this is given as the definition of a Heegner point, in others it is a lemma following from Definition \ref{heegner point}. It is this representation that is most useful to algorithmically finding representatives for Heegner points.
+\begin{lem}
+Let $D$ and $N$ be integers that satisfy the Heegner hypothesis (all primes $p$ dividing $N$ are split in $\Q(\sqrt{D})/\Q$. Let $\tau \in \Ha$ be a quadratic surd with $f_\tau = (A,B,C)$ and $\Delta(\tau) = D$. Then $\tau$ is a Heegner point of level $N$ and discriminant $D$ (up to modulo $\Gamma_0(N)$) if and only if $\Delta(\tau) = \Delta(N\tau) = D$. 
+\end{lem}
+\begin{proof}
+From the proposition above, we have both $j(\tau)$ and $j(N\tau)$ are defined over the same quadratic field $K = \Q(\sqrt{D}).$ Moreover, by Gauss we have that both $\tau$ and $N\tau$ represent the same ideals in $K$. Let $n$ be the relevant primitive ideal with respect to $N$ in $\Or_K$, and let $[I]$ be the ideal class corresponding to the binary quadratic forms represented by $\tau$ and $N\tau$. Then the Heegner point is $(\Or_K,n,[I])$. See \cite[Chapter 3]{MR1123075} for further details.
+\end{proof}
+We will now prove several facts about Heegner points and their images under the map $\varphi:X_0(N) \to E(\C)$, using this alternative representation of Heegner points. For the remainder of this section, fix an elliptic curve $E$ over the rationals with conductor $N$.
+We have the following simple formula to determine if any $\tau \in \Ha/\Gamma_0(N)$ is a Heegner point via the following proposition.
+\begin{prop}
+Let $\tau, f_\tau$ be as above, then $\tau$ is a Heegner point if and only if $N|A$ and $\gcd(A/N,B,CN) = 1$.
+\end{prop}
+\begin{proof}
+We have 
+$$\tau = \frac{-B + \sqrt{D}}{2A} \;\;\;\text{ and }\;\;\; N\tau = \frac{-NB + N\sqrt{D}}{2A},$$
+and we wish to show that there exist $B',A'$ such that 
+$$N\tau = \frac{-B' + \sqrt{D}}{2A'}.$$
+We rewrite and equate real parts and imaginary parts to obtain
+$A = NA'$ and $B = B'$, which implies that $N$ divides $A$. 
+Also, since
+$$\frac{A}{N}(N\tau)^2 + B(N\tau) + (CN) = 0,$$
+the rest follows. The other direction is similar.
+\end{proof}
+We again note that $\mathcal{HP}_N(D)$ will be non-empty only when all prime factors $p$ of $N$ are either split or ramified in $\Q(\sqrt{D})$. To be more precise, we have the following proposition to describe the number of Heegner points in $\mathcal{HP}_N(D)$.
+\begin{prop} 
+Let 
+$$\mathcal{S}(D,N) = \left\{\sqrt{D (\text{mod } 4N)} (\text{mod } 2N)\right\}.$$ 
+Then the set $\mathcal{HP}_N(D)$ is in bijection with the set 
+$$\mathcal{S}(D,N) \times Cl(\Q(\sqrt{D})).$$
+\end{prop}
+\begin{proof}
+Given a Heegner point $\tau \in \mathcal{HP}_N(D)$ with
+$$\tau = \frac{-B + \sqrt{D}}{2A},$$ 
+let $f_\tau = (A,B,C)$ and in one direction we have
+$$\tau \longmapsto (B\mod 2N, [f_\tau]).$$
+For the other direction, fix $(\beta,[f]) \in \mathcal{S}(D,N) \times Cl(\Q(\sqrt{D}))$. Then we can find an $(A,B,C) \in [f]$ such that $N$ divides $A$ and $B \equiv \beta$ (mod $2N)$. We send
+$$(\beta,[f]) \longmapsto \frac{-B + \sqrt{D}}{2A}.$$
+\end{proof}
+
+Our goal is to prove that we can use Heegner points, or at least their images on $C/\Lambda$, to construct a rational point on an elliptic curve. The first step is given in the following proposition.
+\begin{prop}
+Let $\tau$ be a Heegner point of discriminant $D$ on $\Ha/\Gamma_0(N)$, and let $H$ be the maximal unramified abelian extension of $Q(\sqrt{D})$ (ie. the Hilbert class field of $\Q(\sqrt{D})$). Then $\varphi(\tau) \in E(H).$
+\end{prop}
+\begin{proof}
+See \cite[Page 33]{Darmon2}. This can be shown using the theorem of complex multiplication of Shimura \cite{Shimura},\cite{Shimura&Taniyama}.
+\end{proof}
+From this, we can prove the following.
+\begin{thm} Let $E(\Q)$ be an elliptic curve of conductor $N$, and let $\mathcal{HP}_N(D,\beta)$ be the set of all Heegner points $\tau \in \mathcal{HP}_N(D)$ such that $f_\tau = (A,B,C)$ has $B \equiv \beta$ (mod $2N)$. Then define the complex point $z_\beta$ as
+$$z_\beta = \varphi\left(\sum_{\tau \in \mathcal{HP}_N(D,\beta)} \tau\right) = \sum_{\tau \in \mathcal{HP}_N(D,\beta)} \sum_{n=1}^{\infty} \frac{a_n}{n}e^{2\pi i n \tau}.$$
+Let $P_\beta = \Phi(z_\beta)$ under usual mapping $\C/\Lambda \to E(\C)$. Then $P_\beta \in E(\Q)$.
+\end{thm}
+\begin{proof}
+See \cite{MR0384805} or \cite[Theorem 2.8]{Watkins}.
+\end{proof}

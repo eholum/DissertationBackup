@@ -1,0 +1,213 @@
+\chapter{Algorithm and Examples}
+From the last section we see that given an elliptic curve $E/\Q$ of analytic rank 1, we can use Heegner points to construct points on $E(\Q)$. A major issue with our algorithm is that we have no guarantee that the point $P_\beta$ will be non-torsion, much less non-trivial. In this section, we discuss the practical issues of using Heegner points on $X_0(N)$ to construct rational points on an elliptic curve. We then demonstrate the process described on several different curves. Mark Watkins has implemented a highly efficient algorithm for constructing Heegner points on elliptic curves using $Magma$. For simplicity and understanding, we implement our algorithm in $SAGE$, and skip many of the optimization steps taken by Watkins in \cite{Watkins}.
+
+
+\section{Algorithm for the Construction of a Rational Point}
+Based on the information in the preceeding sections, given an elliptic curve $E/\Q$ of conductor $N$, analytic rank 1, and whose associated newform $f$ has an odd functional equation, we have a potential algorithm for the construction of a rational point on $E$.
+\begin{enumerate}
+\item{} Pick a fundamental discriminant $D < 0$ that satisfies the Heegner hypothesis. 
+\item{} Choose a $\beta \in \mathcal{S}(D,N)$, and compute the $\tau_i$ representatives for the Heegner points in $\mathcal{HP}_N(D,\beta)$ using Gauss's method in \cite[Section 5.9]{Cohen}. 
+\item{} Compute the sum
+$$P_\beta = \sum_{\tau \in \mathcal{HP}_N(D,\beta)} \sum_{n=1}^{\infty} \frac{a_n}{n}e^{2\pi i n \tau}$$
+to sufficient precision on $\C/\Lambda$.
+\item{} Using the function $\Phi:\C/\Lambda \to E$, map the value $z_\beta$ to the point $P_\beta$ on $E$ and try to recognize the value as a rational number.
+\end{enumerate}
+
+As said above, there is no guarantee that the point $P_\beta$ will have infinite order. However, in the mid 1980s, Gross and Zagier proved a remarkable theorem precisely describing the canoical height of a Heegner point in terms of $L$-series.
+\begin{thm}[Gross-Zagier Theorem] Let $D < -3$ be a fundamental discriminant that is also a square modulo $4N$, and $\gcd(D,2N) = 1$, then
+\begin{equation}
+\hat{h}(P_N(D)) = \frac{\sqrt{|D|}}{4Vol(E)}L'(E,1)L(E_D,1)\left(\frac{w(D)}{2}\right)^2 2^{\omega(gcd(D,N))}
+\end{equation}
+where $\hat{h}$ be the canonical height function on the elliptic curve $E(\Q)$, $E_D$ is the quadratic twist of $E$ by $D$, $Vol(E)$ is the volume of the fundamental parallelogram, $\Pi$, $w(D) = |\Q(\sqrt{D})^*|$, and $\omega(n)$ is the number of distinct prime factors of $n$.
+\end{thm}
+\begin{proof}
+See \cite{MR909238}.
+\end{proof}
+Then as a point $P \in E(\Q)$ is torsion if and only if $\hat{h}(P) = 0$, we have a relatively simple method for predicting what height our Heegner point should have. We amend the algorithm described above to include the step
+\begin{itemize}
+\item{} Before computing $\mathcal{HP}_N(D,\beta)$, compute the expected height of the Heegner point. If it is zero, choose a different fundamental discriminant and start again.
+\end{itemize}
+In addition to being able to anticipate the height of a Heegner point, we can predict, using the Birch$-$Swinnerton-Dyer conjecture, what height a generator should have, and obtain a value for the index of a Heegner point in the Mordell-Weil group. Namely, we write $P_\beta = lG + T$, where $l \in \N$, $G$ is a generator, and $T$ is a torsion point (see \cite[Conjecture 3.2]{Watkins}). Then we use BSD \cite{BSD} to replace $L'(E,1)$. We obtain
+\begin{equation}
+l^2 = \frac{\Omega_{re}}{4Vol(E)}\left(\prod_{p|N\infty}c_p (\#\text{LII})\right)\frac{\sqrt{|D|}}{\#E(\Q)^2_{tors}}L(E_D,1)\left(\frac{w(D)}{2}\right)^2 2^{\omega(gcd(D,N))},
+\end{equation}
+where $\Omega_{re}$ and $\Omega_{im}$ represent the real and imaginary portions of a normalized basis for a lattice $\Lambda$ with $E \cong \C/\Lambda$. We further amend our algorithm to include the possibility that we do not get a generator (and thus potentially have a largely inflated height), we can then use the information to find a generator (modulo torsion) for the elliptic curve as follows (credit this step to \cite{Watkins}):
+\begin{itemize}
+\item{} After computing $z_\beta$, let $m = \gcd(l,$exp$(E(\Q)_{tors}))$, then rather than only checking if $H_\beta$ is close to a rational point, we do it for several different values $\bar{z} \in \C/\Lambda$, ranging over possible values for the generator.  Let $u$ run over the range $1,..,lm$. Then if $\Delta(E) > 0$, check to see if the points
+$$\Phi(\bar{z}_\beta) = \Phi\left(\frac{m\Re(z) + u \Omega_{re}}{ml}\right)$$
+and
+$$\Phi(\bar{z}_\beta) = \Phi\left(\frac{m\Re(z) + u \Omega_{re}}{ml} + \frac{\Omega_{im}}{2}\right)$$
+are close to rational points on $E$. Otherwise, if $\Delta(E) < 0$, we let $o = \Im(z)/\Im(\Omega_{im})$ and check if the points
+$$\Phi(\bar{z}_\beta) = \Phi\left(\frac{m\Re(z) + u \Omega_{re}}{ml} + \frac{o \Omega_{re}}{2}\right)$$
+are close to rational points on $E$.
+\end{itemize}
+
+\section{Computational Issues}
+An important question is to what level of accuracy must we do our computations in order to be sure we will be able to recognize the final points as rational numbers. The use of continued fractions says that if we expect a point with numerator and denominator of $H$ digits, then we will need about $2H$ digits of precision to guarantee we can recognize it at as rational number. The first step is to be able to compute the height to a sufficient accuracy to be able to confidently describe the value $\hat{h}(P)$. We have the following to bound the error in computing $L'(E,1)$.
+\begin{prop}[\cite{Silverman2}, Proposition 4.1] Let $E/\Q$ be an elliptic curve with a functional equation of odd sign. Then for $m \geq 100$, we have
+$$\left|L'(E,1)-2 \sum_{n=1}^{m}\frac{a_n}{n}E_1\left(\frac{2\pi n}{\sqrt{N}}\right)\right| \leq \frac{\sqrt{N}}{\pi m^{3/2-1/\log\log m}(e^{2\pi m/\sqrt{N}} -1)},$$
+where
+$$E_1(x) = \int_x^\infty \frac{e^{-t}}{t}dt.$$
+\end{prop}
+As we will be dealing (for the purposes of this paper), with points with generally small height, the above proposition convinces us that the height computation will be rapidly convergent as we do not need many points of accuracy. As we are more interested in an approximation than the actual value. We wish to know how many terms of the $L$-series we must compute to ensure we have enough accuracy to reconstruct the image of the point $z_\beta$ on $E(\Q)$. We have the following error bound for the computation to with $10^{-d}$.
+\begin{prop}[\cite{Darmon2}, Proposition 1.1] For any $\tau \in \Ha$, the sum can be computed to within $10^{-d}$ using $M$ terms of the $L$-series. Where
+$$M = \frac{\log 10^{-d}}{-2\pi \Im(\tau)}.$$
+In other words
+$$\left| \left(\sum_{n=1}^{\infty} \frac{a_n}{n}a^n\right) - \left(\sum_{n=1}^{M} \frac{a_n}{n}a^n\right)\right| \leq 10^{-d}.$$
+\end{prop}
+
+
+\section{Examples}
+We present three sample computations, the first on simple curves with small height to demonstrate the process, we then compute a Heegner point of larger height. When computing heights of points $P$, we use the notation $x+$ to mean $\hat{h}(P) \ge x$.
+
+
+\subsection{The Curve $E: y^2 + y = x^3 - x$}
+We present a step by step computation of a Heegner point on the curve $[0,0,1,-1,0]$ of conductor $37$. We compute the first several possible discriminants to be
+$$D = -4, -7, -11, -40, -47, -67, -71, -83, -84, -95,...$$
+Using the Gross-Zagier formula, we have the height of the Heegner point on the curve as $\hat{P}_\beta \approx 0.205...$, then, combining with the Birch-Swinnerton$-$Dyer conjecture we have the index as $l = 4$. We can expect a generator to have height $\approx 0.0511...$. We choose $D = -40$, for which the number $h(D) = 2$, and compute the relevant $\tau$ representatives as binary forms. We have $\beta \in \{16,58\}$, choosing $\beta = 16$ we have
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$(A,B,C)$& $\tau$ & $\approx\varphi(\tau)$ \\
+\hline
+$(37, 16, 2)$ & $\frac{\sqrt{-40} - 16}{74}$ & $0.567136607830584 - 0.572182654883695i$\\
+$(74, 16, 1)$ &  $\frac{\sqrt{-40} - 16}{148}$ & $0.567136607830584 + 0.572182654883695i$\\
+\hline
+\end{tabular}
+\end{center}
+Summing the values in the last column gives 
+$$z_{16} \approx 1.1342732156611682810216112905...$$
+Which under the weierstrass $\wp$-function gives $x(P_{16}) = 1.$ Thus, a Heegner point of discriminant $-40$ associated to $E$ is given by
+$$P_{16} = (1,-1,1).$$
+We of course note that a naive point search would have yielded this point, however the example is a simple demonstration of how the construction works.
+
+\subsection{The Curve $E:y^2 + xy + y = x^3 - 362x + 2615$}
+We next consider a curve with slightly larger conductor, and larger generator, the curve $[1, 0, 1, -362, 2615]$ of conductor $120687$. We choose $D = -383$ for which the class number is $h(D) = 17$, and  $\beta = 16559$. Using the Gross-Zagier formula we compute the height of the Heegner point to be $\hat{h}(P_{16559}) = 135.7534+$, and combined with the BSD conjecture, we get $l^2 = 6$. Thus we can expect the height of a generator to be $ \approx 3.77+$. By the formulae above, we need 19 digits of accuracy to guarantee we can reconstruct the point.  We compute using $\approx 300,000$ terms of the $L$-series, the points 
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$(A,B,C)$ & $\tau$ & $\approx\varphi(\tau)$ \\
+\hline
+$(120687, 16559, 568)$ & $\frac{\sqrt{-383} - 16559}{241374}$ & $0.26508 - 0.50747i$\\
+$(241374, 16559, 284)$ & $\frac{\sqrt{-383} - 16559}{482748}$ & $2.2320 + 1.7208i$\\
+$(241374, 257933, 68907)$ & $\frac{\sqrt{-383} - 257933}{482748}$ & $-2.6162 - 0.75971i$\\
+$(362061, 257933, 45938)$ & $\frac{\sqrt{-383} - 257933}{724122}$ & $-1.1695 - 0.79339i$\\
+$(482748, 16559, 142)$ & $\frac{\sqrt{-383} - 16559}{965496}$ & $2.7122 + 1.7673i$\\
+$(482748, 740681, 284107)$ & $\frac{\sqrt{-383} - 740681}{965496}$ & $-1.1768 + 0.76975i$\\
+$(724122, 257933, 22969)$ & $\frac{\sqrt{-383} - 257933}{1448244}$ & $-2.6157 - 1.4293i$\\
+$(724122, 982055, 332966)$ & $\frac{\sqrt{-383} - 982055}{1448244}$ & $1.6474 + 0.11133i$\\
+$(844809, 1223429, 442934)$ & $\frac{\sqrt{-383} - 1223429}{1689618}$ & $-3.2257 - 1.1638i$\\
+$(965496, 16559, 71)$ & $\frac{\sqrt{-383} - 16559}{1930992}$ & $0.85187 + 1.8400i$\\
+$(965496, 1706177, 753768)$ & $\frac{\sqrt{-383} - 1706177}{1930992}$ & $1.6393 + 3.1599i$\\
+$(1086183, 1706177, 670016)$ & $\frac{\sqrt{-383} - 1706177}{2172366}$ & $-1.8627 + 0.89410i$\\
+$(1448244, 1706177, 502512)$ & $\frac{\sqrt{-383} - 1706177}{2896488}$ & $-1.0722 - 0.039521i$\\
+$(1689618, 1223429, 221467)$ & $\frac{\sqrt{-383} - 1223429}{3379236}$ & $-2.8211 - 2.3519i$\\
+$(1930992, 1947551, 491063)$ & $\frac{\sqrt{-383} - 1947551}{3861984}$ & $0.053184 - 0.58565i$\\
+$(2051679, 2188925, 583838)$ & $\frac{\sqrt{-383} - 2188925}{4103358}$ & $-1.2826 - 2.1691i$\\
+$(3861984, 5809535, 2184803)$ & $\frac{\sqrt{-383} - 5809535}{7723968}$ & $-0.71193 - 1.1009i$\\
+\hline
+\end{tabular}
+\end{center}
+Again, we sum the values in the last column to obtain
+$$z_{16559} \approx -9.0627734853544659642871198... - 0.54744493234053133982509759...i$$
+for which the associated point on the curve is
+\begin{small}
+\begin{align*}
+&(272102349952560490569588857348997982142836423870936241800081/23719803251449217\\ &039203879701728255083093757587426409640000 ,-3478460215014654039668471891679743\\ &9934778058322984985964898737508492956824043470467710629/36531425863063641031118\\ &22826114820627371570273018415832850716784927077990972186312000000 , 1)
+\end{align*}
+\end{small}
+Ranging over $u$, we obtain the relevant point
+$$\bar{z}_{16559} \approx 1.21449691341147726718101677171508954359916116665510...$$
+Which mapping to the curve $E$ using $\Phi$ and reconstructing using continued fractions gives the point (a generator)
+$$P_{16559} = (47,276,1).$$
+
+
+
+\subsection{A Larger Example}
+In this section, we compute a generator for the curve 
+$$E:y^2 + xy = x^3 - x^2 - 36502495762x - 2684284892271276$$
+of conductor $N = 169862$. We choose $D = -327$ for which $h(D) = 12$. The Heegner point will have height $\approx 53875.2354+$, with index $l = 12$. Thus, we can expect the height of a generator to be $\approx 374.1336+$
+
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$(A,B,C)$ & $\tau$ & $\approx\varphi(\tau)$ \\
+\hline
+$(169862, 2019, 6)$ & $\frac{\sqrt{-327} - 2019}{339724}$ & $0.970181534584... + 0.406208134780...i$\\
+$(339724, 2019, 3)$ & $\frac{\sqrt{-327} - 2019}{679448}$ & $0.849773113022... - 1.48265683802...i$\\
+$(509586, 2019, 2)$  & $\frac{\sqrt{-327} - 2019}{1019172}$ & $0.849773113023... + 1.48265683803...i$\\
+$(679448, 681467, 170873)$ & $\frac{\sqrt{-327} - 681467}{1358896}$ & $-1.09610353086... + 0.434878106545...i$\\
+$(1019172, 2019, 1)$ & $\frac{\sqrt{-327} - 2019}{2038344}$ & $0.970181534228... - 0.406208134590...i$\\
+$(1189034, 1700639, 608093)$& $\frac{\sqrt{-327} - 1700639}{2378068}$ & $2.72107335869... + 0.940911270411...i$\\
+$(1358896, 2040363, 765894)$ &$\frac{\sqrt{-327} - 2040363}{2717792}$ & $0.602123038432... + 0.687526987751...i$\\
+$(1868482, 3399259, 1546036)$& $\frac{\sqrt{-327} - 3399259}{3736964}$ & $0.404037632964... + 1.44424276131...i$\\
+$(2038344, 2040363, 510596)$& $\frac{\sqrt{-327} - 2040363}{4076688}$ & $-1.11162239378... + 0.424870695321...i$\\
+$(2378068, 4078707, 1748883)$& $\frac{\sqrt{-327} - 4078707}{4756136}$ & $-0.309688979078... + 0.196557136776...i$\\
+$(3567102, 4078707, 1165922)$& $\frac{\sqrt{-327} - 4078707}{7134204}$ & $-1.64937813999... + 1.14796507415...i$\\
+\hline
+\end{tabular}
+\end{center}
+Summing the last column gives
+$$z_{2019} \approx 1.51530061234467421072689 + 6.53036974554911187723558...i$$
+Which under $\Phi$ maps to the point (given as an approximation as the actual height of the point is more than 50,000)
+$$\Phi(z_{2019}) \approx (224420.76106432775576446..., -20767447.521321148901535..., 1)$$
+Ranging over $u$, we obtain the relevant point
+$$\bar{z}_{2019} \approx 0.001608333845317833942678735065804276841448951186796033...$$
+Which using $\Phi$ and continued fractions gives the numerator of the $x$-coordinate of the generator as
+\begin{small}
+\begin{align*}
+&240054507144997007130114738055349271937302280494307429461295927475132\\ &0980625930603685532132379430565886843600589188552456263733498195403884\\ 
+&247586894501016717396831\\
+&\;\;\;\;\;\;\text{\begin{normalsize} and denominator\end{normalsize}} \\
+&58781617371057659231225214052391286584217362502814205520333178313313310\\ &5078080049951208992240231933982856068847108337106737221652483594308549\\ 
+&5483585006716961.
+\end{align*}
+\end{small}
+
+
+\subsection{An Even Larger Example}
+In this section, we compute a generator for the curve 
+$$E:y^2 + xy = x^3 - x^2 - 36502495762x - 2684284892271276$$
+of conductor $N = 137935$. Using the Gross-Zagier theorem we compute the height to be $\approx 801916.7242...+$. Using the BSD, we have the Heegner index as $l = 24$. We conclude a generator has height $\approx 1392.2165+$. We choose $D = -1531$ for which $h(D) = 11$, and $\beta = 15313.$ We compute the points with approximately $700$ digits of accuracy, requiring 1.7 million terms of the $L$-series.
+
+\begin{center}
+\begin{tabular}{| c | c | c |}
+\hline
+$(A,B,C)$ & $\tau$ & $\approx\varphi(\tau)$ \\
+\hline
+$(137935, 15313, 425)$ & $\frac{\sqrt{-1531} - 15313}{275870}$ & $2.5240523... - 0.80324413...i$\\
+$(689675, 15313, 85)$ & $\frac{\sqrt{-1531} - 15313}{1379350}$ & $1.0906444... + 1.3449735...i$\\
+$(965545, 1118793, 324091)$ & $\frac{\sqrt{-1531} - 1118793}{1931090}$ & $1.1152957... + 1.2461843...i$\\
+$(1517285, 567053, 52981)$ & $\frac{\sqrt{-1531} - 567053}{3034570}$ & $-4.4162473... - 0.49225933...i$\\
+$(1517285, 1946403, 624221)$ & $\frac{\sqrt{-1531} - 1946403}{3034570}$ & $0.28553233... + 3.1838307...i$\\
+$(1793155, 291183, 11821)$ & $\frac{\sqrt{-1531} - 291183}{3586310}$ & $2.3013780... - 3.6751200...i$\\
+$(1793155, 1946403, 528187)$ & $\frac{\sqrt{-1531} - 1946403}{3586310}$ & $1.0039738... - 2.1025912...i$\\
+$(2344895, 15313, 25)$ & $\frac{\sqrt{-1531} - 15313}{4689790}$ & $1.7303887... + 2.4623977...i$\\
+$(2344895, 2774013, 820415)$ & $\frac{\sqrt{-1531} - 2774013}{4689790}$ & $-1.0292041... + 0.18691389...i$\\
+$(8138165, 8567283, 2254757)$ & $\frac{\sqrt{-1531} - 8567283}{16276330}$ & $0.94786611... - 0.062477747...i$\\
+$(10896865, 842923, 16301)$ & $\frac{\sqrt{-1531} - 842923}{21793730}$ & $3.5690822... - 3.8393057...i$\\
+\hline
+\end{tabular}
+\end{center}
+Summing the number in the last column gives us
+$$z_{15313} = 9.122729003720080215832543... - 2.5506523026650546589415204...i$$
+which maps the the point on the curve (as a decimal approximation as $\hat{h}(\Phi(z_{15313})) > 800,000$!)
+$$(7897488.40710718011799693319..., -22065108231.4885475723339747... , 1).$$
+Ranging over $u$, we obtain the relevant point
+$$\bar{z}_{15313} = 0.0021649346961425985399454441159262510823086358276615205470967...$$
+
+which we map to $E(\Q)$ by the map $\Phi$ and reconstruct using continued fractions. We obtain the $x$-coordinate of the generator with numerator
+\begin{small}
+\begin{align*}
+&92673277991680820785390723993629328440307798138826704229451578419951548\\ &502434744109049837748997550063004323918335132532455531917346300957558251\\ &456389346302644734307936357123486629058858909358255136284339292215779169\\ &753109076159057254690402203061151413404681518122197026015399601314392777\\ &512480932728400021115238046789688927937723666428374399736863129092864620\\ &821699949482654263659184625787305817119345001824991364060196849718323569\\ &920675272099597907720725127822512950697987452162632576182006093265291760\\ &364313103946949420952723303531552450723405298078632271568630468855467466\\ &7228683434385429876031432646141\\
+&\;\;\;\;\;\;\text{\begin{normalsize} and denominator\end{normalsize}}\\
+&1872062544808100223950060818560569942823694517688824768965580850961464657\\ &9177912596874689639450153683454712696101819993210261431821400672732578541\\ &4164145898567506966543556159966280793780756097059378748093069274196419137\\ &2379001423328449214887357702304878851978547287032415375275675375079108602\\ &4694915315008560987971325778996801215131366902222988299231181014046177063\\ &5464559397191313722600374237096602130759635105943407762039058590034038075\\ &3319909084764033682113569836495435849989140894444364679843198154083845909\\ &2199767731850424599373397790534294447334083842710300456451916742792950826\\
+&5670990789764964.
+\end{align*}
+\end{small}
+
+
+
+%\section{Optimization}
+%Cremona, using an idea of Silverman's coming from a different algorithm for constructing points on curves $E/\Q$ (\cite{Silverman2}), uses an interesting trick. Namely, the canonical height function has a decomposition into local heights given by
+%$$\hat{h}(P) = \hat{h}_\infty(P) + \sum_{p|N} h_p(P) + \log (\text{denominator}(x(P)).$$

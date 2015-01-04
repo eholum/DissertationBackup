@@ -1,0 +1,153 @@
+\def\cprime{$'$}
+\begin{thebibliography}{10}
+
+\bibitem{Birch1}
+B.~J. Birch.
+\newblock Elliptic curves and modular functions.
+\newblock In {\em Symposia {M}athematica, {V}ol. {IV} ({INDAM}, {R}ome,
+  1968/69)}, pages 27--32. Academic Press, London, 1970.
+
+\bibitem{MR0384805}
+B.~J. Birch.
+\newblock Heegner points of elliptic curves.
+\newblock In {\em Symposia {M}athematica, {V}ol. {XV} ({C}onvegno di
+  {S}trutture in {C}orpi {A}lgebrici, {INDAM}, {R}ome, 1973)}, pages 441--445.
+  Academic Press, London, 1975.
+
+\bibitem{BSD}
+B.~J. Birch and H.~P.~F. Swinnerton-Dyer.
+\newblock Notes on elliptic curves. {II}.
+\newblock {\em J. Reine Angew. Math.}, 218:79--108, 1965.
+
+\bibitem{Birch}
+Bryan Birch.
+\newblock Heegner points: the beginnings.
+\newblock In {\em Heegner points and {R}ankin {$L$}-series}, volume~49 of {\em
+  Math. Sci. Res. Inst. Publ.}, pages 1--10. Cambridge Univ. Press, Cambridge,
+  2004.
+
+\bibitem{MR1839918}
+Christophe Breuil, Brian Conrad, Fred Diamond, and Richard Taylor.
+\newblock On the modularity of elliptic curves over {$\bold Q$}: wild 3-adic
+  exercises.
+\newblock {\em J. Amer. Math. Soc.}, 14(4):843--939 (electronic), 2001.
+
+\bibitem{Cohen}
+Henri Cohen.
+\newblock {\em A course in computational algebraic number theory}, volume 138
+  of {\em Graduate Texts in Mathematics}.
+\newblock Springer-Verlag, Berlin, 1993.
+
+\bibitem{Darmon2}
+Henri Darmon.
+\newblock {\em Rational points on modular elliptic curves}, volume 101 of {\em
+  CBMS Regional Conference Series in Mathematics}.
+\newblock Published for the Conference Board of the Mathematical Sciences,
+  Washington, DC, 2004.
+
+\bibitem{MR909238}
+B.~Gross, W.~Kohnen, and D.~Zagier.
+\newblock Heegner points and derivatives of {$L$}-series. {II}.
+\newblock {\em Math. Ann.}, 278(1-4):497--562, 1987.
+
+\bibitem{Heegner}
+Kurt Heegner.
+\newblock Diophantische {A}nalysis und {M}odulfunktionen.
+\newblock {\em Math. Z.}, 56:227--253, 1952.
+
+\bibitem{Knapp}
+Anthony~W. Knapp.
+\newblock {\em Elliptic curves}, volume~40 of {\em Mathematical Notes}.
+\newblock Princeton University Press, Princeton, NJ, 1992.
+
+\bibitem{MR0344216}
+J.-P. Serre.
+\newblock {\em A course in arithmetic}.
+\newblock Springer-Verlag, New York, 1973.
+\newblock Translated from the French, Graduate Texts in Mathematics, No. 7.
+
+\bibitem{Shimura1}
+Goro Shimura.
+\newblock {\em Introduction to the arithmetic theory of automorphic functions},
+  volume~11 of {\em Publications of the Mathematical Society of Japan}.
+\newblock Princeton University Press, Princeton, NJ, 1994.
+\newblock Reprint of the 1971 original, Kan{\^o} Memorial Lectures, 1.
+
+\bibitem{Shimura}
+Goro Shimura.
+\newblock {\em Abelian Varieties with Complex Multiplication and Modular
+  Functions}.
+\newblock Number~46 in Princeton Math. Series. Princeton Univ. Press,
+  Princeton, NJ, 1998.
+
+\bibitem{Shimura&Taniyama}
+Goro Shimura and Yutaka Taniyama.
+\newblock {\em Complex multiplication of abelian varieties and its applications
+  to number theory}, volume~6 of {\em Publications of the Mathematical Society
+  of Japan}.
+\newblock The Mathematical Society of Japan, Tokyo, 1961.
+
+\bibitem{Silverman1}
+Joseph~H. Silverman.
+\newblock {\em Advanced topics in the arithmetic of elliptic curves}, volume
+  151 of {\em Graduate Texts in Mathematics}.
+\newblock Springer-Verlag, New York, 1994.
+
+\bibitem{Silverman2}
+Joseph~H. Silverman.
+\newblock Computing rational points on rank {$1$} elliptic curves via
+  {$L$}-series and canonical heights.
+\newblock {\em Math. Comp.}, 68(226):835--858, 1999.
+
+\bibitem{Silverman}
+Joseph~H. Silverman.
+\newblock {\em The arithmetic of elliptic curves}, volume 106 of {\em Graduate
+  Texts in Mathematics}.
+\newblock Springer, Dordrecht, second edition, 2009.
+
+\bibitem{Stein}
+William Stein.
+\newblock {\em Modular forms, a computational approach}, volume~79 of {\em
+  Graduate Studies in Mathematics}.
+\newblock American Mathematical Society, Providence, RI, 2007.
+\newblock With an appendix by Paul E. Gunnells.
+
+\bibitem{MR1123075}
+Nelson Stephens.
+\newblock Computation of rational points on elliptic curves using {H}eegner
+  points.
+\newblock In {\em Number theory and applications ({B}anff, {AB}, 1988)}, volume
+  265 of {\em NATO Adv. Sci. Inst. Ser. C Math. Phys. Sci.}, pages 205--214.
+  Kluwer Acad. Publ., Dordrecht, 1989.
+
+\bibitem{MR0082727}
+Yutaka Taniyama.
+\newblock Jacobian varieties and number fields.
+\newblock In {\em Proceedings of the international symposium on algebraic
+  number theory, {T}okyo \& {N}ikko, 1955}, pages 31--45, Tokyo, 1956. Science
+  Council of Japan.
+
+\bibitem{Taylor&Wiles}
+Richard Taylor and Andrew Wiles.
+\newblock Ring-theoretic properties of certain {H}ecke algebras.
+\newblock {\em Ann. of Math. (2)}, 141(3):553--572, 1995.
+
+\bibitem{Watkins}
+Mark Watkins.
+\newblock Some remarks on heegner point computations.
+\newblock 0:1--11, 2005.
+
+\bibitem{MR0178117}
+E.~T. Whittaker and G.~N. Watson.
+\newblock {\em A course of modern analysis. {A}n introduction to the general
+  theory of infinite processes and of analytic functions: with an account of
+  the principal transcendental functions}.
+\newblock Fourth edition. Reprinted. Cambridge University Press, New York,
+  1962.
+
+\bibitem{Wiles}
+Andrew Wiles.
+\newblock Modular elliptic curves and {F}ermat's last theorem.
+\newblock {\em Ann. of Math. (2)}, 141(3):443--551, 1995.
+
+\end{thebibliography}
