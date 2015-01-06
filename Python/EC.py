@@ -7,7 +7,6 @@ def get(M, P):
 	Find all curves E: Y^2 = X^3 + aX + b such that a,b < M+1 and that
 	gcd(Np, Nq) = 1 over all primes p,q in P, with p,q not dividing 2\Delta
 	"""
-	
 	l = []
 	
 	for a in range(M+1):
@@ -25,11 +24,9 @@ def get(M, P):
 			
 			if sizes == 1:
 				l.append((a,b))
-				
-	
 	return l
-	
-	
+
+
 def doubs(M):
 	l = []
 	for a in range(M+1):
@@ -37,5 +34,3 @@ def doubs(M):
 			l.append((a,b))
 			
 	return l
-				
-			

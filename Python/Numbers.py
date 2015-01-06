@@ -5,7 +5,9 @@ from math import floor
 import sys
 import random
 
-
+"""
+Random untilities for integer operations such as primality tests and factoring.
+"""
 #Trivial Primality Test
 def is_prime(n):
 	
@@ -60,7 +62,6 @@ def mr_prime(n, s=75):
   return True # n is prime
   
   
-  
 #Returns a list of the prime factors of an integer n
 def factor(n):
 	if mr_prime(n):
@@ -80,7 +81,6 @@ def factor(n):
 				factors.append((x,power))
 		return factors	
 
-	
 	
 #Returns the modular inverse of the integer n mod p. If there is no such 
 #integer, returns -1
@@ -105,7 +105,6 @@ def mod_inverse(a,p):
 		return None
 	
 	return x % p
-
     
 	
 #Returns the Legendre symbol of an integer x mod p
@@ -199,13 +198,4 @@ def modular_sqrt(a, p):
 				m = m + pow(2,i)
 			
 		root = ((pow(a,(t+1)/2,p))*(pow(D,(m/2),p))) % p
-		return int(root)		
-	
-	
-
-
-
-
-
-
-
+		return int(root)

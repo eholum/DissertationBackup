@@ -1,3 +1,7 @@
+"""
+Module for operations on projected elliptic curves.
+"""
+
 def add_proj(E,P1,P2,n):
 	"""
 	adds the projective point P1 = (X,Y,Z) to P2 = (X,Y,Z)
@@ -40,7 +44,6 @@ def add_proj(E,P1,P2,n):
 	Z3 = (Z1 * Z2 * W) % n
 	
 	return (X3,Y3,Z3)
-	
 	
 	
 def double_proj(E,P1,n):

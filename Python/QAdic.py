@@ -1,6 +1,9 @@
 import fractions
 import Numbers
 import math
+"""
+Random tools for q-adics, Q_p.
+"""
 
 #Given rational number n and prime p, computes the highest power v such that
 #p^n m = n such that p does not divide m

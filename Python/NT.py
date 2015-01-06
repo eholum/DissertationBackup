@@ -2,9 +2,8 @@ import math
 import cmath
 
 """
-For part 2 on the miniproject
+Used solely for the examination. Unhelpful otherwise.
 """
-
 def croot(n):
 	"""
 	returns f-p approx for cube root of n
@@ -26,8 +25,6 @@ def trips(M):
 	l.remove((0,0,0))
 				
 	return l
-		
-	
 
 
 def moduli(P,d):
@@ -44,8 +41,6 @@ def moduli(P,d):
 	B2 = B1.conjugate()
 	
 	return [B,B1,B2]
-	
-
 
 
 def find_all(M,d):
@@ -64,7 +59,6 @@ def find_all(M,d):
 			sat.append(P)
 						
 	return sat
-	
 
 
 def find_mod(M,d):
@@ -152,6 +146,3 @@ def text(M,P):
 		c = 0
 		
 	return (a,b,c)
-	
-	
-	

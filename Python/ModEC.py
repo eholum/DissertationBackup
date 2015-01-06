@@ -6,7 +6,9 @@ from Numbers import modular_sqrt
 from Numbers import factor
 from fractions import gcd
 
-
+"""
+Module for operations on modular elliptic curves.
+"""
 class EC:
 	
 	

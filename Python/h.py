@@ -1,6 +1,3 @@
-"""
-Represents and provides methods for Heegner points on  X_0(N) 
-"""
 from sage.schemes.elliptic_curves.heegner import *
 import sage.rings.number_field.number_field as number_field
 from sage.schemes.elliptic_curves.constructor import *
@@ -9,6 +6,11 @@ import sage.rings.all as rings
 from sage.rings.all import (ZZ, GF, QQ, CDF, CC,
                             Integers, RealField, ComplexField, QuadraticField,
                             gcd, lcm, is_fundamental_discriminant)
+
+"""
+Module for representing and providing basic functions on heegner points. Including their
+construction from modular curves.
+"""
 import pickle
 from math import sqrt,log
 
@@ -111,7 +113,6 @@ def tuple_sat_heegner_hypothesis(f,N,D):
         	return False
         	
 	return True
-	
 
 
 class HeegnerPointsOnCurve:
@@ -187,13 +188,13 @@ class HeegnerPointsOnCurve:
 				barz.append((u,l,temp))
 				print temp
 			return barz
-			
-			
+	
 
 	def __init__(self,E):
 		self.N = ZZ(E.conductor())
 		self.E = E
-		
+	
+	
 	def __repr__(self):
 		return "The set of all Heegner Points in X_0(%s) covering %s"%(self.N,self.E)
 		
@@ -207,7 +208,8 @@ class HeegnerPointsOnCurve:
 		R = Integers(4*N)
 		m = 2*N
 		return tuple(sorted( set([a%m for a in R(D).sqrt(all=True)]) ))
-		
+	
+	
 	def discriminants(self,n=10):
 		"""
 		Returns the first n integers <= -4 that satisfy the heegner
@@ -342,7 +344,6 @@ class HeegnerPointsOnCurve:
 		
 		return IR(height-M_E,height+M_E)
 		
-	
 		
 	def computeGeneratorHeight(self,D=None,prec=2):
 		""" 
@@ -359,7 +360,6 @@ class HeegnerPointsOnCurve:
 			raise ValueError("Discriminant %s and %s must satisfy the Heegner hypothesis"%(D,self.N))
 		if (E.lseries().L1_vanishes() and E.root_number() == 1):
 			return IR(0,0)
-		
 		
 			
 		MAX_ERROR = RR(0.00000001)
@@ -403,7 +403,6 @@ class HeegnerPointsOnCurve:
 		
 		return [IR((height/l2)-M_E,(height/l2)+M_E), sqrt(l2)]
 		
-		
 	
 	def getHeegnerPoint(self,D,beta=None,c=1,prec=10,verbose=False):
 		"""
@@ -411,7 +410,6 @@ class HeegnerPointsOnCurve:
 		using the Heegner point construction. Returns the Heegner
 		point as an element of C/Lambda
 		"""
-		
 		if beta is None:
 			beta = self.betas(D)[0]
 		
@@ -461,7 +459,6 @@ class HeegnerPointsOnCurve:
 		#heegnerpoint = self.E.elliptic_exponential(heegnerPointOnLattice,False)
 		
 		return (heegnerPointOnLattice)#,heegnerpoint)
-		
 		
 
 class HeegnerPoint:

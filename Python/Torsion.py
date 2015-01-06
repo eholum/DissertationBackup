@@ -38,7 +38,6 @@ def proportion(M):
 	return (total-count,total)
 	
 	
-	
 def find_tors(a,b):
 	"""
 	Finds the elements of torsion subgroup of the curve E_a,b, along
@@ -60,7 +59,8 @@ def find_tors(a,b):
 			print
 	
 	return point
-	
+
+
 def find_triv_tors(M):
 	"""
 	finds all (a,b) such that |a|,|b| <= M and E_ab has trivial torsion
@@ -80,6 +80,7 @@ def find_triv_tors(M):
 	
 	return l
 
+
 def tors(a,b):
 	"""
 	Returns True of the curve Y^2 = X^3 + aX + b has trivial torsion,
@@ -98,6 +99,7 @@ def tors(a,b):
 			return False
 			
 	return True
+
 
 def order(a,b,P):
 	"""
@@ -122,8 +124,6 @@ def order(a,b,P):
 			return -1
 	
 	return count
-
-
 
 
 def add(A,B,P,Q):
@@ -165,7 +165,8 @@ def on_e(a,b,x,y):
 	rhs = (x**3) + (a*x) + (b)
 	
 	return lhs == rhs
-	
+
+
 def points(a,b):
 	"""
 	Returns a list of all the points (x,y) on the curve E. Note this 
@@ -183,7 +184,6 @@ def points(a,b):
 				l.append((x,y))
 				
 	return l
-
 
 
 def posy(a,b):
@@ -218,7 +218,6 @@ def is_prime(n):
 	Trivially decides if an integer n is prime.
 	"""
 	for x in range(2, int(floor(sqrt(n))) + 1):
-		
 		if n % x == 0:
 			return False
 			break
@@ -237,7 +236,8 @@ def check(P):
 				l.append(int(x))
 				
 	return l
-		
+
+
 """
 x^3 + ax^2 + bx + c = 0  (or ax^3 + bx^2 + cx + d = 0)
 With substitution x = y-t and t = a/3, the cubic equation reduces to    
@@ -280,14 +280,16 @@ def quadratic(a, b, c=None):
 	y1 = cmath.sqrt(r)
     y2 = -y1
     return y1 - t, y2 - t
-    
+
+
 def cbrt(x):
     from math import pow
     if x >= 0: 
 	return pow(x, 1.0/3.0)
     else:
 	return -pow(abs(x), 1.0/3.0)
-	
+
+
 """
 Convert from rectangular (x,y) to polar (r,w)
     r = sqrt(x^2 + y^2)

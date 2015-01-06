@@ -1,14 +1,12 @@
-"""
-My implementation of the 'elementary' ECM factorization method.
-"""
-
 import random
 from fractions import gcd
 
+"""
+Module for factoring integers using the elementary ECM.
+"""
 def dec2bin(n):
 	"""
 	Converts a decimal number to a binary array.
-	
 	eg: dec2bin(9) = [1,0,0,1]
 	"""
 	
@@ -24,9 +22,8 @@ def dec2bin(n):
 
 
 def ext_euc(a, n):
-	
     """
-    Does the extended Euclidean algorithm to find a triple: (g, x, y), 
+    Performs the extended Euclidean algorithm to find a triple: (g, x, y), 
     such that ax + ny = g = gcd(a,n). 
     """
     if a == 0:
@@ -182,10 +179,8 @@ def multiply(E,P,k,n):
 				return Q
 	
 	return Q
-				
-		
-	
-	
+
+
 def find_curve(n):
 	
 	""" 
@@ -273,7 +268,3 @@ if __name__ == '__main__':
 	print('Enter Threshold: ')
 	B = input()
 	print factor(n,B)
-	
-
-	
-	
