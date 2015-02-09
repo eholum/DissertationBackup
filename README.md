@@ -2,6 +2,10 @@ DissertationBackup
 ==================
 "Heegner Point Constructions for Modular Elliptic Curves"
 
+The document is available for download at:
+
+https://s3.amazonaws.com/eho86/Heegner_Points.pdf
+
 Backup of subset of my masters thesis.
 I seem to have lost some of it over the years, which is kind of a drag.
 
